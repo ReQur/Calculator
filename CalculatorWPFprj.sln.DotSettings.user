@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1761b44a_002D08ab_002D4ecf_002D8a12_002D2e301bba6e27/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_ThrowException_WhenStringIsEmpty" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::28C562BF-A9A2-4C1E-A2DA-293846B96EE3::.NETCoreApp,Version=v3.1::sharpcalc.Tests.Should_ThrowException_WhenStringIsEmpty&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=db5d82c5_002D0e7a_002D4eb3_002D9dbc_002D6c13b92bc040/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Should_BeSuccess_WhenCalculationIsRight" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::28C562BF-A9A2-4C1E-A2DA-293846B96EE3::.NETCoreApp,Version=v3.1::sharpcalc.Tests.Should_BeSuccess_WhenCalculationIsRight&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::28C562BF-A9A2-4C1E-A2DA-293846B96EE3::.NETCoreApp,Version=v3.1::sharpcalc.Tests.Should_ThrowException_WhenStringIsIncorrect&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::28C562BF-A9A2-4C1E-A2DA-293846B96EE3::.NETCoreApp,Version=v3.1::sharpcalc.Tests.Should_ThrowException_WhenStringIsEmpty&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
