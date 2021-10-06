@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 using System.Linq;
 using FluentAssertions;
-using NUnit.Framework;
 
 
 namespace sharpcalc
@@ -11,11 +11,22 @@ namespace sharpcalc
     public class Calculator
     {
         private string numberchar = "0123456789,";
-        private char s;
-        private string input_string;
 
-        private Stack<string> Numbers;
-        private Stack<string> Stack;
+        class Wrap
+        {
+            public char s;
+            public string input_string;
+
+            public Stack<string> Numbers;
+            public Stack<string> Stack;
+
+            public Wrap()
+            {
+                Numbers = new Stack<string>();
+                Stack = new Stack<string>();
+            }
+
+        }
 
         private Dictionary<string, string> cupMatrix = new Dictionary<string, string>
         {
@@ -52,62 +63,61 @@ namespace sharpcalc
 
         public Calculator()
         {
-            Stack = new Stack<string>();
-            Numbers = new Stack<string>();
-
 
         }
 
         public string Calc(string input)
         {
+            Wrap wrap = new Wrap();
             if (input.Trim().Length < 1) throw new ArgumentException("String is Empty");
-            input_string = "$" + input + "$";
-            Get();
-            Stack.Push(s.ToString());
-            Run();
-            Stack.Clear();
-            return Numbers.Pop();
-
+            wrap.input_string = "$" + input + "$";
+            wrap = Get(wrap);
+            wrap.Stack.Push(wrap.s.ToString());
+            wrap = Run(wrap);
+            wrap.Stack.Clear();
+            return wrap.Numbers.Pop();
         }
 
-        public void Get()
+        private Wrap Get(Wrap wrap)
         {
             string number = "";
-            input_string = input_string.TrimStart();
+            wrap.input_string = wrap.input_string.TrimStart();
 
-            s = input_string[0];
-            input_string = input_string.Remove(0, 1);
+            wrap.s = wrap.input_string[0];
+            wrap.input_string = wrap.input_string.Remove(0, 1);
 
-            while (numberchar.Contains(s))
+            while (numberchar.Contains(wrap.s))
             {
-                number += s;
-                if (numberchar.Contains(input_string[0]))
+                number += wrap.s;
+                if (numberchar.Contains(wrap.input_string[0]))
                 {
-                    s = input_string[0];
-                    input_string = input_string.Remove(0, 1);
+                    wrap.s = wrap.input_string[0];
+                    wrap.input_string = wrap.input_string.Remove(0, 1);
                 }
                 else break;
             }
 
             if (number.Length != 0)
             {
-                Numbers.Push(number);
-                s = 'C';
+                wrap.Numbers.Push(number);
+                wrap.s = 'C';
             }
+
+            return wrap;
 
         }
 
-        public void Analization()
+        private Wrap Analization(Wrap wrap)
         {
-            string cup = Stack.Peek() + s;
+            string cup = wrap.Stack.Peek() + wrap.s;
 
             if (cupMatrix[cup].Length == 0) throw new ArgumentException("Wrong input string", "\"" + cup + "\"" + " is unkown couple of elements");
 
             if (cupMatrix[cup].Length == 2)
             {
-                Stack.Push("<");
-                Stack.Push("=");
-                Stack.Push(s.ToString());
+                wrap.Stack.Push("<");
+                wrap.Stack.Push("=");
+                wrap.Stack.Push(wrap.s.ToString());
             }
             else
             if (cupMatrix[cup].Length == 1)
@@ -116,38 +126,41 @@ namespace sharpcalc
 
                 if (act != ">")
                 {
-                    Stack.Push(act);
-                    Stack.Push(s.ToString());
+                    wrap.Stack.Push(act);
+                    wrap.Stack.Push(wrap.s.ToString());
                 }
                 else
                 {
 
-                    Stack.Push(act);
+                    wrap.Stack.Push(act);
 
-                    char ths = s;
-                    Convolution();
-                    Analization();
-                    s = ths;
-                    Analization();
+                    char ths = wrap.s;
+                    wrap = Convolution(wrap);
+                    wrap = Analization(wrap);
+                    wrap.s = ths;
+                    wrap = Analization(wrap);
                 }
 
             }
+
+            return wrap;
         }
 
-        public void Run()
+        private Wrap Run(Wrap wrap)
         {
-            Get();
+            wrap = Get(wrap);
 
-            Analization();
+            wrap = Analization(wrap);
 
 
-            if (input_string.Length != 0)
-                Run();
+            if (wrap.input_string.Length != 0)
+                wrap = Run(wrap);
+            return wrap;
         }
 
-        public void Convolution()
+        private Wrap Convolution(Wrap wrap)
         {
-            Stack<string> tmpStack = new Stack<string>(new Stack<string>(Stack));
+            Stack<string> tmpStack = new Stack<string>(new Stack<string>(wrap.Stack));
             string phrase = "";
             int state = 0;
             string tmps;
@@ -200,15 +213,16 @@ namespace sharpcalc
                 
             string phrs = phraseMatrix[phrase];
             //cout << phrase << " switched on " << phrs->second << endl;
-            s = Char.Parse(phrs);
+            wrap.s = Char.Parse(phrs);
 
-            foreach (var ch in phrase) Stack.Pop();
+            foreach (var ch in phrase) wrap.Stack.Pop();
             //Stack = new Stack<string>(Stack.Take(Stack.Count - phrase.Length));
 
-            Calculation(phrase);
+            wrap = Calculation(phrase, wrap);
+            return wrap;
         }
 
-        public int Operands(string phrase)
+        private int Operands(string phrase)
         {
             int q = 0;
             while (phrase.Length > 0)
@@ -220,113 +234,51 @@ namespace sharpcalc
         }
 
 
-        public void Calculation(string phrase)
+        private Wrap Calculation(string phrase, Wrap wrap)
         {
             if (Operands(phrase) < 2)
                 if (phrase.Contains("-") && phrase.Contains("M"))
                 {
-                    var tmp = Convert.ToInt32(Numbers.Pop());
+                    var tmp = Convert.ToInt32(wrap.Numbers.Pop());
                     tmp *= -1;
-                    Numbers.Push(tmp.ToString());
-                    return;
+                    wrap.Numbers.Push(tmp.ToString());
+                    return wrap;
                 }
-                else return;
+                else return wrap;
             if (phrase.Contains('*'))
             {
-                double b = double.Parse(Numbers.Pop());
-                double a = double.Parse(Numbers.Pop());
+                double b = double.Parse(wrap.Numbers.Pop());
+                double a = double.Parse(wrap.Numbers.Pop());
                 double tmp = a * b;
-                Numbers.Push(tmp.ToString());
+                wrap.Numbers.Push(tmp.ToString());
             }
 
             else if (phrase.Contains('/'))
             {
-                double b = double.Parse(Numbers.Pop());
-                double a = double.Parse(Numbers.Pop());
+                double b = double.Parse(wrap.Numbers.Pop());
+                double a = double.Parse(wrap.Numbers.Pop());
                 double tmp = a / b;
-                Numbers.Push(tmp.ToString());
+                wrap.Numbers.Push(tmp.ToString());
             }
 
             else if (phrase.Contains('-'))
             {
-                double b = double.Parse(Numbers.Pop());
-                double a = double.Parse(Numbers.Pop());
+                double b = double.Parse(wrap.Numbers.Pop());
+                double a = double.Parse(wrap.Numbers.Pop());
                 double tmp = a - b;
-                Numbers.Push(tmp.ToString());
+                wrap.Numbers.Push(tmp.ToString());
             }
 
             else if (phrase.Contains('+'))
             {
-                double b = double.Parse(Numbers.Pop());
-                double a = double.Parse(Numbers.Pop());
+                double b = double.Parse(wrap.Numbers.Pop());
+                double a = double.Parse(wrap.Numbers.Pop());
                 double tmp = a + b;
-                Numbers.Push(tmp.ToString());
+                wrap.Numbers.Push(tmp.ToString());
             }
 
+            return wrap;
         }
 
-    }
-
-
-    public class Tests
-    {
-        private Calculator calc;
-        [SetUp]
-        public void Setup()
-        {
-            calc = new Calculator();
-        }
-
-        //[Test]
-        //public void Test1()
-        //{
-        //    calc = new Calculator();
-
-        //    calc.Calc("7+8*(10+(-5))").Should().Be("47");
-        //}
-        //[Test]
-        //public void Test2()
-        //{
-        //    calc = new Calculator();
-
-        //    calc.Calc("  -1 -1 -11-1-13").Should().Be("-27");
-        //}
-        
-        //[Test]
-        //public void Test3()
-        //{
-        //    calc = new Calculator();
-
-        //    calc.Calc("5*5*5*5*5").Should().Be("3125");
-        //}
-
-        [Test]
-        public void Should_BeSuccess_WhenCalculationIsRight()
-        {
-            calc = new Calculator();
-
-            calc.Calc("4,5+5,5*3,6").Should().Be("24,3");
-            calc.Calc("5*5*5*5*5").Should().Be("3125");
-            calc.Calc("  -1 -1 -11-1-13").Should().Be("-27");
-            calc.Calc("7+8*(10+(-5))").Should().Be("47");
-        }
-
-        [Test]
-        public void Should_ThrowException_WhenStringIsEmpty()
-        {
-            calc = new Calculator();
-
-            Assert.Throws<ArgumentException>(() => calc.Calc(" "));
-        }
-
-
-        [Test]
-        public void Should_ThrowException_WhenStringIsIncorrect()
-        {
-            calc = new Calculator();
-
-            Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => calc.Calc(" 1**1"));
-            Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => calc.Calc("randomstring"));
-        }
     }
 }
