@@ -8,9 +8,83 @@
         Title="MainWindow" Height="450" Width="800"
         d:DataContext="{d:DesignInstance local:MainViewModel}">
         
+
+    <Window.Resources>
+        <Style x:Key="Keyboard" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Command" Value="{Binding IKeyboardCommand}"/>
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+        </Style>
+        <Style x:Key="Keyboard_blue" BasedOn="{StaticResource Keyboard}" TargetType="{x:Type Button}"> 
+            <Setter Property="Control.Foreground" Value="Blue"/>
+        </Style>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="D0" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=ZeroBut}"></KeyBinding>
+        <KeyBinding Key="NumPad0" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=ZeroBut}"></KeyBinding>
+        <KeyBinding Key="D1" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=OneBut}"></KeyBinding>
+        <KeyBinding Key="NumPad1" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=OneBut}"></KeyBinding>
+        <KeyBinding Key="D2" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=TwoBut}"></KeyBinding>
+        <KeyBinding Key="NumPad2" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=TwoBut}"></KeyBinding>
+        <KeyBinding Key="D3" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=ThreeBut}"></KeyBinding>
+        <KeyBinding Key="NumPad3" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=ThreeBut}"></KeyBinding>
+        <KeyBinding Key="D4" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=FourBut}"></KeyBinding>
+        <KeyBinding Key="NumPad4" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=FourBut}"></KeyBinding>
+        <KeyBinding Key="D5" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=FiveBut}"></KeyBinding>
+        <KeyBinding Key="NumPad5" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=FiveBut}"></KeyBinding>
+        <KeyBinding Key="D6" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=SixBut}"></KeyBinding>
+        <KeyBinding Key="NumPad6" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=SixBut}"></KeyBinding>
+        <KeyBinding Key="D7" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=SevenBut}"></KeyBinding>
+        <KeyBinding Key="NumPad7" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=SevenBut}"></KeyBinding>
+        <KeyBinding Key="D8" 
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=EightBut}"></KeyBinding>
+        <KeyBinding Key="NumPad8"
+                    Command="{Binding PKeyboardCommand  }" CommandParameter="{Binding ElementName=EightBut}"></KeyBinding>
+        <KeyBinding Key="D9" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=NineBut}"></KeyBinding>
+        <KeyBinding Key="NumPad9" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=NineBut}"></KeyBinding>
+        <KeyBinding Key="Back" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DelBut}"></KeyBinding>
+        <KeyBinding Key="Multiply" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=MultiButBut}"></KeyBinding>
+        <KeyBinding Key="Subtract" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=MinusButBut}"></KeyBinding>
+        <KeyBinding Key="Add" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=PlusButBut}"></KeyBinding>
+        <KeyBinding Key="Divide" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DivBut}"></KeyBinding>
+        <KeyBinding Key="Enter" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=ConvBut}"></KeyBinding>
+        <KeyBinding Key="OemPeriod" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DotBut}"></KeyBinding>
+        <KeyBinding Key="OemComma" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DotBut}"></KeyBinding>
+        
+    </Window.InputBindings>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -22,88 +96,79 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-</Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+ 
+        <TextBlock Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="5" TextAlignment="Right" FontSize="50" Padding="0 0 50 0"
+                   Text="{Binding UIEquation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"></TextBlock>
 
-        <TextBlock Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="5" TextAlignment="Right" FontSize="50" Padding="50 0 50 0"
-                 Text="{Binding Equation, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-
-        <Button Grid.Row="1" Grid.Column="0"
+        <Button Grid.Row="1" Grid.Column="0" x:Name="SevenBut"
                 Content="7"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="7"></Button>
-        <Button Grid.Row="1" Grid.Column="1"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="EightBut"
                 Content="8"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="8"></Button>
-        <Button Grid.Row="1" Grid.Column="2"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="1" Grid.Column="2" x:Name="NineBut"
                 Content="9"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="9"></Button>
-        <Button Grid.Row="1" Grid.Column="3"
-                Content="/"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="/"></Button>
-        <Button Grid.Row="1" Grid.Column="4"
-                Content="Del"></Button>
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="1" Grid.Column="3" x:Name="DivBut"
+                Content="÷"
+                CommandParameter="/"
+                Style="{StaticResource Keyboard_blue}"></Button>
+        <Button Grid.Row="1" Grid.Column="4" x:Name="DelBut"
+                Content="{Binding DeleteSymbol}" FontSize="20"
+                Command="{Binding DeleteCommand}"
+                CommandParameter="{Binding Equation}"
+                Style="{StaticResource Keyboard_blue}"></Button>
 
-        <Button Grid.Row="2" Grid.Column="0"
+        <Button Grid.Row="2" Grid.Column="0" x:Name="FourBut"
                 Content="4"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="4"></Button>
-        <Button Grid.Row="2" Grid.Column="1"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="2" Grid.Column="1" x:Name="FiveBut"
                 Content="5"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="5"></Button>
-        <Button Grid.Row="2" Grid.Column="2"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="2" Grid.Column="2" x:Name="SixBut"
                 Content="6"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="6"></Button>
-        <Button Grid.Row="2" Grid.Column="3"
-                Content="*"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="*"></Button>
-        <Button Grid.Row="2" Grid.Column="4"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="2" Grid.Column="3" x:Name="MultiBut"
+                Content="✕" FontSize="20"
+                CommandParameter="*"
+                Style="{StaticResource Keyboard_blue}"></Button>
+        <Button Grid.Row="2" Grid.Column="4" x:Name="OpBut"
                 Content="("
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="("></Button>
+                Style="{StaticResource Keyboard_blue}"></Button>
 
-        <Button Grid.Row="3" Grid.Column="0"
+        <Button Grid.Row="3" Grid.Column="0" x:Name="OneBut"
                 Content="1"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="1"></Button>
-        <Button Grid.Row="3" Grid.Column="1"
+                CommandParameter="1"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="3" Grid.Column="1" x:Name="TwoBut"
                 Content="2"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="2"></Button>
-        <Button Grid.Row="3" Grid.Column="2"
+                CommandParameter="2"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="3" Grid.Column="2" x:Name="ThreeBut"
                 Content="3"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="3"></Button>
-        <Button Grid.Row="3" Grid.Column="3"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="3" Grid.Column="3" x:Name="MinusBut"
                 Content="-"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="-"></Button>
-        <Button Grid.Row="3" Grid.Column="4"
+                Style="{StaticResource Keyboard_blue}"></Button>
+        <Button Grid.Row="3" Grid.Column="4" x:Name="ClBut"
                 Content=")"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter=")"></Button>
+                Style="{StaticResource Keyboard_blue}"></Button>
 
-        <Button Grid.Row="4" Grid.Column="0"
+        <Button Grid.Row="4" Grid.Column="0" x:Name="ZeroBut"
                 Content="0"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="0"></Button>
-        <Button Grid.Row="4" Grid.Column="1"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="4" Grid.Column="1" x:Name="DotBut"
                 Content=","
-                Command="{Binding KeyboardCommand}"
-                CommandParameter=","></Button>
-        <Button Grid.Row="4" Grid.Column="3"
+                Style="{StaticResource Keyboard}"></Button>
+        <Button Grid.Row="4" Grid.Column="3" x:Name="PlusBut"
                 Content="+"
-                Command="{Binding KeyboardCommand}"
-                CommandParameter="+"></Button>
-        <Button Grid.Row="4" Grid.Column="4"
+                Style="{StaticResource Keyboard_blue}"></Button>
+        <Button Grid.Row="4" Grid.Column="4" x:Name="ConvBut"
                 Content="="
                 Command="{Binding CalculateCommand}"
-                CommandParameter="{Binding Equation}"></Button>
+                CommandParameter="{Binding Equation}"
+                Style="{StaticResource Keyboard_blue}"></Button>
         <!--<TextBox Grid.Row="2" Text="{Binding Answer}"></TextBox>-->
 
     </Grid>

@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -33,37 +38,158 @@ namespace CalculatorWPFprj
         }
     }
 
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public MainViewModel()
         {
             CalculateCommand = new RelayCommand<string>(x =>
             {
-                Calculator myCalculator = new Calculator();
-                Equation = myCalculator.Calc(x);
+                try
+                {
+                    Calculator myCalculator = new Calculator();
+                    Equation = myCalculator.Calc(x);
+                }
+                catch
+                {
+                    Equation = "Incorrect input string";
+                }
+
+                Calculated = true;
+
             }, x => string.IsNullOrWhiteSpace(x) == false);
 
-            KeyboardCommand = new RelayCommand<string>(x =>
+            IKeyboardCommand = new RelayCommand<string>(x =>
             {
+                if (x == "+" || x == "-" || x == "*" || x == "/")
+                {
+                    if (string.IsNullOrWhiteSpace(Equation)) return; 
+
+                    if(Equation.EndsWith(x)) return;
+                    
+                    if (Calculated)
+                    {
+                        Calculated = false;
+                    }
+                }
+                else
+                {
+                    if (Calculated)
+                    {
+                        Calculated = false;
+                        Equation = "";
+                    }
+                }
+                
                 Equation += x;
             }, x => string.IsNullOrWhiteSpace(x) == false);
-        }
-        public ICommand CalculateCommand { get; }
-        public ICommand KeyboardCommand { get; }
 
-        private string _equation;
+            DeleteCommand = new RelayCommand<string>(x =>
+            {
+                if (Calculated)
+                {
+                    Calculated = false;
+                    Equation = "";
+                }
+                else
+                {
+                    Equation = Equation.Substring(0, Equation.Length - 1);
+                }
+            }, x => string.IsNullOrWhiteSpace(x) == false);
+
+            PKeyboardCommand = new RelayCommand<Button>(x =>
+            {
+                //IKeyboardCommand.Execute(x.CommandParameter);
+                typeof(System.Windows.Controls.Primitives.ButtonBase).GetMethod("OnClick", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(x, new object[0]);
+                PressButton(x);
+            }, x => x != null);
+
+        }
+
+        public void PressButton(Button x)
+        {
+            typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(x, new object[] { true });
+            //typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(x, new object[] { false });
+        }
+
+        public ICommand CalculateCommand { get; }
+        public ICommand IKeyboardCommand { get; }
+        public ICommand PKeyboardCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+        private string _deletesymbol = "⌫";
+        public string DeleteSymbol
+        {
+            get => _deletesymbol;
+        }
+
+        private bool _calculated = false;
+        public bool Calculated
+        {
+            get => _calculated;
+
+            set
+            {
+                if (_calculated == value) return;
+                _calculated = value;
+
+                if (_calculated)
+                {
+                    _deletesymbol = "C";
+                }
+                else
+                {
+                    _deletesymbol = "⌫";
+                }
+                OnPropertyChanged(nameof(Calculated));
+                OnPropertyChanged(nameof(DeleteSymbol));
+            }
+        }
+
+        private string _equation = "";
         public string Equation
         {
             get => _equation;
 
             set
             {
+                try
+                {
+                    Calculator myCalculator = new Calculator();
+                    Answer = myCalculator.Calc(value);
+                    _errorsDictionary[nameof(Equation)] = null;
+                }
+                catch (Exception ex)
+                {
+                    _errorsDictionary[nameof(Equation)] = ex.Message;
+                }
                 if (_equation == value) return;
                 _equation = value;
                 _equation = _equation.Replace(".", ",");
                 OnPropertyChanged(nameof(Equation));
+                OnPropertyChanged(nameof(UIEquation));
             }
         }
+
+
+        private string _uiequation;
+        public string UIEquation
+        {
+           // get => Equation.Length*35 > WindowWidth ?("..." + Equation.Substring(Equation.Length - 1 - WindowWidth / 35, WindowWidth/35)) : Equation;
+            get
+            {
+                _uiequation = Equation.Length * 35 > WindowWidth ? ("..." + Equation.Substring(Equation.Length - 1 - WindowWidth / 35, WindowWidth / 35 + 1)) : Equation;
+                _uiequation = _uiequation.Replace("*", "✕");
+                _uiequation = _uiequation.Replace("/", "÷");
+                return _uiequation;
+            }
+        }
+
+
+        public int WindowWidth
+        {
+            get => Convert.ToInt32(((System.Windows.Controls.Panel)Application.Current.MainWindow.Content).ActualWidth);
+        }
+
 
         private string _answer;
         public string Answer
@@ -86,5 +212,18 @@ namespace CalculatorWPFprj
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        private Dictionary<string, string> _errorsDictionary = new Dictionary<string, string>();
+
+        public string Error
+        {
+            get
+            {
+                return string.Join(Environment.NewLine,
+                    _errorsDictionary.Values.Where(x => string.IsNullOrWhiteSpace(x) == false));
+            }
+        }
+        public string this[string equat] => _errorsDictionary.TryGetValue(equat, out var error) ? error : null;
     }
 }
