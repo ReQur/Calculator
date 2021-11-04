@@ -6,8 +6,11 @@
         xmlns:local="clr-namespace:CalculatorWPFprj"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        d:DataContext="{d:DesignInstance local:MainViewModel}">
+        d:DataContext="{d:DesignInstance local:MainViewModel}"
         
+        KeyDown="MainWindow_OnKeyDown"
+        PreviewKeyDown="MainWindow_OnKeyDown">
+
 
     <Window.Resources>
         <Style x:Key="Keyboard" TargetType="{x:Type Button}">
@@ -66,11 +69,11 @@
         <KeyBinding Key="Back" 
                     Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DelBut}"></KeyBinding>
         <KeyBinding Key="Multiply" 
-                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=MultiButBut}"></KeyBinding>
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=MultiBut}"></KeyBinding>
         <KeyBinding Key="Subtract" 
-                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=MinusButBut}"></KeyBinding>
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=MinusBut}"></KeyBinding>
         <KeyBinding Key="Add" 
-                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=PlusButBut}"></KeyBinding>
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=PlusBut}"></KeyBinding>
         <KeyBinding Key="Divide" 
                     Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DivBut}"></KeyBinding>
         <KeyBinding Key="Enter" 
@@ -79,6 +82,12 @@
                     Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DotBut}"></KeyBinding>
         <KeyBinding Key="OemComma" 
                     Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DotBut}"></KeyBinding>
+        <KeyBinding Key="Decimal" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=DotBut}"></KeyBinding>
+        <KeyBinding Key="D9" Modifiers="Shift" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=OpBut}"></KeyBinding>
+        <KeyBinding Key="D0" Modifiers="Shift" 
+                    Command="{Binding PKeyboardCommand}" CommandParameter="{Binding ElementName=ClBut}"></KeyBinding>
         
     </Window.InputBindings>
 
@@ -100,6 +109,10 @@
  
         <TextBlock Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="5" TextAlignment="Right" FontSize="50" Padding="0 0 50 0"
                    Text="{Binding UIEquation, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"></TextBlock>
+
+
+        <TextBlock Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="5" TextAlignment="Right" FontSize="30" Padding="0 0 50 5" VerticalAlignment="Bottom" Foreground="DarkGray"
+                   Text="{Binding Answer, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
 
         <Button Grid.Row="1" Grid.Column="0" x:Name="SevenBut"
                 Content="7"
@@ -169,7 +182,6 @@
                 Command="{Binding CalculateCommand}"
                 CommandParameter="{Binding Equation}"
                 Style="{StaticResource Keyboard_blue}"></Button>
-        <!--<TextBox Grid.Row="2" Text="{Binding Answer}"></TextBox>-->
 
     </Grid>
 </Window>

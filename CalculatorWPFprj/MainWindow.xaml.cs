@@ -36,6 +36,31 @@ namespace CalculatorWPFprj
             InitializeComponent();
             DataContext = new MainViewModel();
         }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            
+            Console.WriteLine(e.Key);
+        }
+    }
+
+    public class History
+    {
+        private string _equation;
+        public string Equation
+        {
+            get => _equation;
+        }
+        private string _answer;
+        public string Answer
+        {
+            get => _answer;
+        }
+        public History(string equation, string answer)
+        {
+            _equation = equation;
+            _answer = answer;
+        }
     }
 
     public class MainViewModel : INotifyPropertyChanged, IDataErrorInfo
@@ -55,6 +80,7 @@ namespace CalculatorWPFprj
                 }
 
                 Calculated = true;
+                Answer = "";
 
             }, x => string.IsNullOrWhiteSpace(x) == false);
 
@@ -99,16 +125,18 @@ namespace CalculatorWPFprj
             PKeyboardCommand = new RelayCommand<Button>(x =>
             {
                 //IKeyboardCommand.Execute(x.CommandParameter);
-                typeof(System.Windows.Controls.Primitives.ButtonBase).GetMethod("OnClick", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(x, new object[0]);
+                typeof(System.Windows.Controls.Primitives.ButtonBase).GetMethod("OnClick", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(x, new object[0]);
                 PressButton(x);
             }, x => x != null);
 
         }
-
-        public void PressButton(Button x)
+        private void PressButton(Button x)
         {
-            typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(x, new object[] { true });
-            //typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(x, new object[] { false });
+            var methodInfo = typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic);
+            methodInfo?.Invoke(x, new object[] { true });
+            var context = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.Run(() => Thread.Sleep(100)).ContinueWith(_ =>
+                methodInfo?.Invoke(x, new object[] {false}), context);
         }
 
         public ICommand CalculateCommand { get; }
@@ -157,10 +185,13 @@ namespace CalculatorWPFprj
                     Calculator myCalculator = new Calculator();
                     Answer = myCalculator.Calc(value);
                     _errorsDictionary[nameof(Equation)] = null;
+                    _errorsDictionary[nameof(UIEquation)] = null;
                 }
                 catch (Exception ex)
                 {
                     _errorsDictionary[nameof(Equation)] = ex.Message;
+                    _errorsDictionary[nameof(UIEquation)] = ex.Message;
+                    Answer = "";
                 }
                 if (_equation == value) return;
                 _equation = value;
@@ -174,7 +205,6 @@ namespace CalculatorWPFprj
         private string _uiequation;
         public string UIEquation
         {
-           // get => Equation.Length*35 > WindowWidth ?("..." + Equation.Substring(Equation.Length - 1 - WindowWidth / 35, WindowWidth/35)) : Equation;
             get
             {
                 _uiequation = Equation.Length * 35 > WindowWidth ? ("..." + Equation.Substring(Equation.Length - 1 - WindowWidth / 35, WindowWidth / 35 + 1)) : Equation;
