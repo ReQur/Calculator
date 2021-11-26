@@ -183,5 +183,28 @@
                 CommandParameter="{Binding Equation}"
                 Style="{StaticResource Keyboard_blue}"></Button>
 
+
+        <ListBox x:Name="HistoryList" ItemsSource="{Binding History}" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.PanningRatio="0"
+                 Visibility="{Binding HistoyVisibility}"
+                 Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="5" HorizontalContentAlignment="Right"
+                 >
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="CalculatorWPFprj:HElement">
+                    <StackPanel  Margin="0, 0, 30, 0">
+                        <TextBlock Text="{Binding Equation}" Grid.Row="0" Margin="0, 30, 0, 0" TextAlignment="Right" FontSize="50" />
+                        <TextBlock Text="{Binding Answer}" Grid.Row="1" TextAlignment="Right" FontSize="50" Foreground="DarkGray" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Grid.Column="0" Grid.Row="0" Content="..." Margin="3" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left"
+                Command="{Binding ChangeHistoryVisibilityCommand}"
+                Background="White"
+                FontSize="30"
+                BorderThickness="0">
+        </Button>
+
+
     </Grid>
 </Window>

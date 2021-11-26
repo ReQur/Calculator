@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\CalculatorWPFprj\\CalculatorWPFprj.csproj": {}
+    "A:\\mming\\Calculator\\Calculator\\CalculatorWPFprj\\CalculatorWPFprj.csproj": {}
   },
   "projects": {
-    "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\CalculatorWPFprj\\CalculatorWPFprj.csproj": {
+    "A:\\mming\\Calculator\\Calculator\\CalculatorWPFprj\\CalculatorWPFprj.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\CalculatorWPFprj\\CalculatorWPFprj.csproj",
+        "projectUniqueName": "A:\\mming\\Calculator\\Calculator\\CalculatorWPFprj\\CalculatorWPFprj.csproj",
         "projectName": "CalculatorWPFprj",
-        "projectPath": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\CalculatorWPFprj\\CalculatorWPFprj.csproj",
-        "packagesPath": "C:\\Users\\xdd_2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\CalculatorWPFprj\\obj\\",
+        "projectPath": "A:\\mming\\Calculator\\Calculator\\CalculatorWPFprj\\CalculatorWPFprj.csproj",
+        "packagesPath": "C:\\Users\\Computer\\.nuget\\packages\\",
+        "outputPath": "A:\\mming\\Calculator\\Calculator\\CalculatorWPFprj\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\xdd_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Computer\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -32,8 +33,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\sharpcalc\\sharpcalc\\sharpcalc.csproj": {
-                "projectPath": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\sharpcalc\\sharpcalc\\sharpcalc.csproj"
+              "A:\\mming\\Calculator\\Calculator\\sharpcalc\\sharpcalc\\sharpcalc.csproj": {
+                "projectPath": "A:\\mming\\Calculator\\Calculator\\sharpcalc\\sharpcalc\\sharpcalc.csproj"
               }
             }
           }
@@ -63,6 +64,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.18, 3.1.18]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -71,24 +78,25 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\sharpcalc\\sharpcalc\\sharpcalc.csproj": {
+    "A:\\mming\\Calculator\\Calculator\\sharpcalc\\sharpcalc\\sharpcalc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\sharpcalc\\sharpcalc\\sharpcalc.csproj",
+        "projectUniqueName": "A:\\mming\\Calculator\\Calculator\\sharpcalc\\sharpcalc\\sharpcalc.csproj",
         "projectName": "sharpcalc",
-        "projectPath": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\sharpcalc\\sharpcalc\\sharpcalc.csproj",
-        "packagesPath": "C:\\Users\\xdd_2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\xdd_2\\source\\repos\\CalculatorWPFprj\\sharpcalc\\sharpcalc\\obj\\",
+        "projectPath": "A:\\mming\\Calculator\\Calculator\\sharpcalc\\sharpcalc\\sharpcalc.csproj",
+        "packagesPath": "C:\\Users\\Computer\\.nuget\\packages\\",
+        "outputPath": "A:\\mming\\Calculator\\Calculator\\sharpcalc\\sharpcalc\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\xdd_2\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Computer\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -117,19 +125,19 @@
           "dependencies": {
             "FluentAssertions": {
               "target": "Package",
-              "version": "[6.1.0, )"
+              "version": "[6.2.0, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[16.5.0, )"
+              "version": "[17.0.0, )"
             },
             "NUnit": {
               "target": "Package",
-              "version": "[3.12.0, )"
+              "version": "[3.13.2, )"
             },
             "NUnit3TestAdapter": {
               "target": "Package",
-              "version": "[3.16.1, )"
+              "version": "[4.0.0, )"
             }
           },
           "imports": [
@@ -147,7 +155,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }

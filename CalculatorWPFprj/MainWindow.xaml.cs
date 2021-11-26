@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 using CalculatorWPFprj.Annotations;
 using GalaSoft.MvvmLight.CommandWpf;
 using sharpcalc;
@@ -44,41 +45,35 @@ namespace CalculatorWPFprj
         }
     }
 
-    public class History
-    {
-        private string _equation;
-        public string Equation
-        {
-            get => _equation;
-        }
-        private string _answer;
-        public string Answer
-        {
-            get => _answer;
-        }
-        public History(string equation, string answer)
-        {
-            _equation = equation;
-            _answer = answer;
-        }
-    }
-
     public class MainViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public MainViewModel()
         {
+            History = new ObservableCollection<HElement>();
+
+            HElement.read_from_file(History);
+
             CalculateCommand = new RelayCommand<string>(x =>
             {
-                try
+                //try
+                //{
+                //    Calculator myCalculator = new Calculator();
+                //    Equation = myCalculator.Calc(x);
+                //}
+                //catch
+                //{
+                //    Equation = "Incorrect input string";
+                //}
+                if (!string.IsNullOrWhiteSpace(Answer))
                 {
-                    Calculator myCalculator = new Calculator();
-                    Equation = myCalculator.Calc(x);
+                    History.Add(new HElement(UIEquation, Answer));
+                    HElement.write_to_file(History);
+                    Equation = Answer;
                 }
-                catch
+                else
                 {
                     Equation = "Incorrect input string";
                 }
-
                 Calculated = true;
                 Answer = "";
 
@@ -129,6 +124,18 @@ namespace CalculatorWPFprj
                 PressButton(x);
             }, x => x != null);
 
+            ChangeHistoryVisibilityCommand = new RelayCommand<Button>(x =>
+            {
+                if(HistoyVisibility == "Collapsed")
+                {
+                    HistoyVisibility = "Visible";
+                }
+                else
+                {
+                    HistoyVisibility = "Collapsed";
+                }
+            });
+
         }
         private void PressButton(Button x)
         {
@@ -143,6 +150,8 @@ namespace CalculatorWPFprj
         public ICommand IKeyboardCommand { get; }
         public ICommand PKeyboardCommand { get; }
         public ICommand DeleteCommand { get; }
+        public ICommand ChangeHistoryVisibilityCommand { get; }
+
 
         private string _deletesymbol = "⌫";
         public string DeleteSymbol
@@ -234,6 +243,23 @@ namespace CalculatorWPFprj
                 OnPropertyChanged(nameof(Answer));
             }
         }
+
+        private string _histoyvisibility = "Collapsed";
+        public string HistoyVisibility
+        {
+            get => _histoyvisibility;
+
+            set
+            {
+                if (_histoyvisibility == value) return;
+
+                _histoyvisibility = value;
+                OnPropertyChanged(nameof(HistoyVisibility));
+            }
+        }
+
+
+        public ObservableCollection<HElement> History { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
