@@ -9,9 +9,11 @@
       "CalculatorWPFprj/1.0.0": {
         "dependencies": {
           "Dapper": "2.0.123",
+          "FluentAssertions": "6.2.0",
+          "Microsoft.NET.Test.Sdk": "17.0.0",
           "MvvmLightLibs": "5.4.1.1",
-          "System.Data.SQLite": "1.0.115.5",
-          "sharpcalc": "1.0.0"
+          "NUnit": "3.13.2",
+          "System.Data.SQLite": "1.0.115.5"
         },
         "runtime": {
           "CalculatorWPFprj.dll": {}
@@ -409,7 +411,6 @@
           }
         }
       },
-      "NUnit3TestAdapter/4.1.0": {},
       "runtime.native.System.Data.SqlClient.sni/4.7.0": {
         "dependencies": {
           "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
@@ -840,17 +841,6 @@
           "System.Threading": "4.0.11",
           "System.Xml.ReaderWriter": "4.0.11"
         }
-      },
-      "sharpcalc/1.0.0": {
-        "dependencies": {
-          "FluentAssertions": "6.2.0",
-          "Microsoft.NET.Test.Sdk": "17.0.0",
-          "NUnit": "3.13.2",
-          "NUnit3TestAdapter": "4.1.0"
-        },
-        "runtime": {
-          "sharpcalc.dll": {}
-        }
       }
     }
   },
@@ -978,13 +968,6 @@
       "sha512": "sha512-u+fz/lXyR4vlamySNAEMrXvh+GhAQiB6/aVZtU5WjivR5zF26Ui0tfteDtWqT90k9D8y6g8rFKYQC97Z7d195w==",
       "path": "nunit/3.13.2",
       "hashPath": "nunit.3.13.2.nupkg.sha512"
-    },
-    "NUnit3TestAdapter/4.1.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-v45RJt87pPAWlCDIftmtQhNK0mXd81IcnTE6SmWUmxi6YegCvkQogZQ/ROw4zyNyo2HI3Ckby3LB0GHF4bEIXg==",
-      "path": "nunit3testadapter/4.1.0",
-      "hashPath": "nunit3testadapter.4.1.0.nupkg.sha512"
     },
     "runtime.native.System.Data.SqlClient.sni/4.7.0": {
       "type": "package",
@@ -1342,11 +1325,6 @@
       "sha512": "sha512-Mk2mKmPi0nWaoiYeotq1dgeNK1fqWh61+EK+w4Wu8SWuTYLzpUnschb59bJtGywaPq7SmTuPf44wrXRwbIrukg==",
       "path": "system.xml.xdocument/4.0.11",
       "hashPath": "system.xml.xdocument.4.0.11.nupkg.sha512"
-    },
-    "sharpcalc/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }
