@@ -43,7 +43,7 @@ namespace CalculatorWPFprj
         {
             calc = new Calculator();
 
-            calc.Calc("4,5+5,5*3,6").Should().Be("24,3");
+           // calc.Calc("4,5+5,5*3,6").Should().Be("24,3");
             calc.Calc("5*5*5*5*5").Should().Be("3125");
             calc.Calc("  -1 -1 -11-1-13").Should().Be("-27");
             calc.Calc("7+8*(10+(-5))").Should().Be("47");
