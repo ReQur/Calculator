@@ -12,8 +12,4 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\sharpcalc\sharpcalc\sharpcalc.csproj" />
-  </ItemGroup>
-
 </Project>
