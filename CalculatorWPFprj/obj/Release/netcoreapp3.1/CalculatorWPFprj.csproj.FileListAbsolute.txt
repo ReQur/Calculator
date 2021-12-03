@@ -116,3 +116,4 @@ C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\bin\Release\netcor
 C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\bin\Release\netcoreapp3.1\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\bin\Release\netcoreapp3.1\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\bin\Release\netcoreapp3.1\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\obj\Release\netcoreapp3.1\CalculatorWPFprj.csprojAssemblyReference.cache

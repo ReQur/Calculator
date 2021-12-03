@@ -22,7 +22,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using CalculatorWPFprj.Annotations;
 using GalaSoft.MvvmLight.CommandWpf;
-using sharpcalc;
+
 
 
 namespace CalculatorWPFprj

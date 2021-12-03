@@ -4,7 +4,7 @@ using System.Text;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace sharpcalc
+namespace CalculatorWPFprj
 {
     public class Tests
     {

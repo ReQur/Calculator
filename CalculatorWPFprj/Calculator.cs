@@ -6,7 +6,7 @@ using System.Linq;
 using FluentAssertions;
 
 
-namespace sharpcalc
+namespace CalculatorWPFprj
 {
     public class Calculator
     {
