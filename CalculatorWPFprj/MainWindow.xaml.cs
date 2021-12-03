@@ -35,7 +35,7 @@ namespace CalculatorWPFprj
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            DataContext = new MainViewModel(new MemHistoryStorage());
         }
 
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
@@ -47,27 +47,18 @@ namespace CalculatorWPFprj
 
     public class MainViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
-        public MainViewModel()
-        {
-            History = new ObservableCollection<HElement>();
+        private readonly IHistoryStorage _historyStorage;
 
-            HElement.read_from_file(History);
+        public MainViewModel(IHistoryStorage historyStorage)
+        {
+            _historyStorage = historyStorage;
+            History = new ObservableCollection<HElement>();
 
             CalculateCommand = new RelayCommand<string>(x =>
             {
-                //try
-                //{
-                //    Calculator myCalculator = new Calculator();
-                //    Equation = myCalculator.Calc(x);
-                //}
-                //catch
-                //{
-                //    Equation = "Incorrect input string";
-                //}
                 if (!string.IsNullOrWhiteSpace(Answer))
                 {
-                    History.Add(new HElement(UIEquation, Answer));
-                    HElement.write_to_file(History);
+                    _historyStorage.write(History, new HElement(UIEquation, Answer));
                     Equation = Answer;
                 }
                 else
@@ -128,6 +119,7 @@ namespace CalculatorWPFprj
             {
                 if(HistoyVisibility == "Collapsed")
                 {
+                    _historyStorage.read(History);
                     HistoyVisibility = "Visible";
                 }
                 else

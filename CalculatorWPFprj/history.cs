@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using Dapper;
 
 
 namespace CalculatorWPFprj
@@ -42,9 +43,34 @@ namespace CalculatorWPFprj
         public HElement()
         {
         }
-        static public void read_from_file(ObservableCollection<HElement> hElements)
+    }
+
+
+
+    public interface IHistoryStorage
+    {
+        void read(ObservableCollection<HElement> hElements);
+        void write(ObservableCollection<HElement> hElements, HElement hElement);
+    }
+
+    class MemHistoryStorage : IHistoryStorage
+    {
+        public void read(ObservableCollection<HElement> hElements)
         {
-            string path = @"A:\mming\Calculator\Calculator\CalculatorWPFprj\history.json";
+            
+        }
+
+        public void write(ObservableCollection<HElement> hElements, HElement hElement)
+        {
+            hElements.Add(hElement);
+        }
+    }
+
+    class FileHistoryStorage : IHistoryStorage
+    {
+        public void read(ObservableCollection<HElement> hElements)
+        {
+            string path = @"C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\history.json";
             using (StreamReader sr = File.OpenText(path))
             {
                 string s;
@@ -55,18 +81,46 @@ namespace CalculatorWPFprj
             }
         }
 
-        static public void write_to_file(ObservableCollection<HElement> hElements)
+        public void write(ObservableCollection<HElement> hElements, HElement hElement)
         {
-            string path = @"A:\mming\Calculator\Calculator\CalculatorWPFprj\history.json";
-            string jsonHistory = JsonSerializer.Serialize(hElements);
-            
-            using (StreamWriter sw = File.CreateText(path))
+            string path = @"C:\Users\xdd_2\source\repos\CalculatorWPFprj\CalculatorWPFprj\history.json";
+
+            using (StreamWriter sw = new StreamWriter(path, true))
             {
-                foreach (HElement element in hElements)
+                sw.WriteLine(JsonSerializer.Serialize(hElement));
+            }
+        }
+    }
+
+    class dbHistoryStorage : IHistoryStorage
+    {
+        public void read(ObservableCollection<HElement> hElements)
+        {
+            using (var connection =
+                new System.Data.SQLite.SQLiteConnection("Data Source=C:\\Programming\\SQLiteStudio\\HistoryDataBase"))
+            {
+                connection.Open();
+                var result = connection.Query<HElement>("select * from HistoryDataTable");
+
+                foreach (var element in result)
                 {
-                    sw.WriteLine(JsonSerializer.Serialize(element));
+                    hElements.Add(element);
                 }
-                
+
+            }
+        }
+
+        public void write(ObservableCollection<HElement> hElements, HElement hElement)
+        {
+            using (var connection =
+                new System.Data.SQLite.SQLiteConnection("Data Source=C:\\Programming\\SQLiteStudio\\HistoryDataBase"))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "Insert into HistoryDataTable (Equation, Answer) values ('" + hElement.Equation.ToString() + "', '"
+                                      + hElement.Answer.ToString() + "')";
+                command.ExecuteReader();
+
             }
         }
     }
